@@ -5,7 +5,6 @@
   "description": "Preview image for selected url",
   "icon": "appicon.png",
   "author": "kgaikj",
-  "owner": "zhengfankai",
   "categories": [
     "Data",
     "Developer Tools",
@@ -40,5 +39,5 @@
     "lint": "ray lint",
     "publish": "npx @raycast/api@latest publish"
   },
-  "version": "0.0.0"
+  "version": "1.0.0"
 }
