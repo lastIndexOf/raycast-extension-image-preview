@@ -1,9 +1,9 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "imagepreview",
-  "title": "ImagePreview",
-  "description": "preview image for selected url",
-  "icon": "command-icon.png",
+  "title": "preview image for selected url",
+  "description": "Preview image for selected url",
+  "icon": "appicon.png",
   "author": "kgaikj",
   "owner": "zhengfankai",
   "categories": [
@@ -15,7 +15,7 @@
   "commands": [
     {
       "name": "image_preview",
-      "title": "ImagePreview",
+      "title": "Image Preview",
       "description": "preview image for selected url",
       "mode": "view"
     }
@@ -39,5 +39,6 @@
     "fix-lint": "ray lint --fix",
     "lint": "ray lint",
     "publish": "npx @raycast/api@latest publish"
-  }
+  },
+  "version": "0.0.0"
 }
