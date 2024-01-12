@@ -14,14 +14,16 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "index",
+      "name": "image_preview",
       "title": "ImagePreview",
       "description": "preview image for selected url",
       "mode": "view"
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.65.0"
+    "@raycast/api": "^1.65.0",
+    "axios": "^1.6.5",
+    "image-size": "^1.1.1"
   },
   "devDependencies": {
     "@raycast/eslint-config": "^1.0.6",
