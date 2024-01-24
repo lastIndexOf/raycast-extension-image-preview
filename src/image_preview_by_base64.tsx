@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Action, ActionPanel, Detail, List, getSelectedText } from "@raycast/api";
-import axios from "axios";
 import sizeOf from "image-size";
+import isBase64 from "is-base64";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const debounce = (fn: (...args: any[]) => void, wait: number) => {
@@ -31,28 +31,13 @@ export default function Command() {
     const getText = async () => {
       try {
         const text = await getSelectedText();
-        setHasSelectedText(!!text.trim());
-        const isImage = await checkImageByUrl(text);
 
-        if (isImage) {
+        if (isBase64(text)) {
+          setHasSelectedText(!!text.trim());
           setSrc(text);
-        } else {
-          setHasSelectedText(false);
         }
       } catch (err) {
         setSrc("");
-      }
-    };
-
-    const checkImageByUrl = async (url: string) => {
-      console.info(url);
-      try {
-        const res = await axios.head(url);
-        const type = res.headers["content-type"]?.toString();
-
-        return type.startsWith("image/") || type.startsWith("binary/");
-      } catch (err) {
-        return false;
       }
     };
 
@@ -60,15 +45,12 @@ export default function Command() {
   }, []);
 
   useEffect(() => {
-    const fetchMetadata = async () => {
+    const checkBase64Data = async () => {
       try {
         setLoading(true);
 
-        const res = await axios.get(src, {
-          responseType: "arraybuffer",
-        });
-
-        const size = sizeOf(new Uint8Array(res.data));
+        const bf = Buffer.from(src, "base64");
+        const size = sizeOf(new Uint8Array(bf));
 
         setMetadata(
           size as {
@@ -79,19 +61,22 @@ export default function Command() {
         );
       } catch (err) {
         console.error("fetch image metadata error");
+        setLoading(false);
+        setSrc("");
+        setHasSelectedText(false);
       }
 
       setLoading(false);
     };
 
     if (src) {
-      fetchMetadata();
+      checkBase64Data();
     }
   }, [src]);
 
-  return src ? (
+  return src && metadata.type ? (
     <Detail
-      markdown={`![image](${src})`}
+      markdown={`![image](data:image/${metadata.type};base64,${src})`}
       isLoading={loading}
       actions={
         <ActionPanel>
